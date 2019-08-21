@@ -9,8 +9,49 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    var dishes = Dish.all()
+    
+    @State private var isSpicy = false
+    
     var body: some View {
-        Text("Hello World")
+
+        NavigationView {
+            
+            List{
+                
+                Toggle(isOn: $isSpicy) {
+                    Text("Con picante")
+                        .font(.subheadline)
+                }
+                ForEach(dishes.filter { $0.isSpicy == self.isSpicy }) { dish in
+                    
+                    HStack {
+                        Image(dish.imageURL)
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                            .cornerRadius(15)
+                            .shadow(radius: 10)
+                            
+                        
+                        Text(dish.name)
+                            .font(.title)
+                        .lineLimit(nil)
+                        
+                        Spacer()
+                        
+                        
+                        if(dish.isSpicy) {
+                        Image("spicy")
+                        .resizable()
+                            .frame(width: 50, height:50)
+                        }
+                        
+                    }
+                }
+            }.navigationBarTitle(Text("Menú"))
+        }
+        
     }
 }
 
